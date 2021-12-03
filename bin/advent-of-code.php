@@ -6,6 +6,7 @@ use Cli\Command\Day01First;
 use Cli\Command\Day01Second;
 use Cli\Command\Day02First;
 use Cli\Command\Day02Second;
+use Cli\Command\Day03First;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -13,4 +14,5 @@ $application->add(new Day01First());
 $application->add(new Day01Second());
 $application->add(new Day02First());
 $application->add(new Day02Second());
+$application->add(new Day03First());
 $application->run();
