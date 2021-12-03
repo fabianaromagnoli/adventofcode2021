@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class Day03First extends Command
 {
-    use \MeasurementTrait;
+    use \DiagnosticTrait;
 
     protected function configure()
     {
@@ -23,33 +23,14 @@ final class Day03First extends Command
     {
         $reportFile = $input->getArgument('reportFile');
         $report = explode(PHP_EOL, trim(file_get_contents($reportFile)));
-        $numberOfLines = count($report);
 
-        $report = array_map(function ($line) {
-            return array_map(function ($bit) {
-                return (int) $bit;
-            },str_split($line));
-        }, $report);
-
-        $transposed = array_map(null, ...$report);
-
-        $columnsSum = array_map(function ($column) {
-            return array_sum($column);
-        }, $transposed);
-
-        $columnResultForGammaRate = array_map(function ($eachColumnSum) use ($numberOfLines) {
-            return $eachColumnSum > $numberOfLines/2 ? 1 : 0;
-        }, $columnsSum);
-
-        $columnResultForEpsilonRate = array_map(function ($eachColumnSum) use ($numberOfLines) {
-            return $eachColumnSum < $numberOfLines/2 ? 1 : 0;
-        }, $columnsSum);
+        $columnResultForGammaRate = $this->getBitCriteria($report, true);
+        $columnResultForEpsilonRate = $this->getBitCriteria($report, false);
 
         $gammaRate = bindec(implode('', $columnResultForGammaRate));
         $epsilonRate = bindec(implode('', $columnResultForEpsilonRate));
+        $output->writeln(sprintf('Power consumption is %d', $gammaRate * $epsilonRate));
 
-
-        $output->writeln(sprintf('Result is %d', $gammaRate * $epsilonRate)) ;
         return 0;
     }
 }
