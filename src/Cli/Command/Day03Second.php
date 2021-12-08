@@ -24,14 +24,14 @@ final class Day03Second extends Command
         $reportFile = $input->getArgument('reportFile');
         $report = explode(PHP_EOL, trim(file_get_contents($reportFile)));
 
-        $oxygenGeneratorRate = $this->getRateWithMatchingBitCriteria($report, true);
-        $co2ScrubberRate = $this->getRateWithMatchingBitCriteria($report, false);
+        $oxygenGeneratorRate = $this->getRateUsingMatchingBitCriteria($report, true);
+        $co2ScrubberRate = $this->getRateUsingMatchingBitCriteria($report, false);
 
         $output->writeln(sprintf('Result is %d', $oxygenGeneratorRate * $co2ScrubberRate)) ;
         return 0;
     }
 
-    private function getRateWithMatchingBitCriteria($report, $useTheMostCommonBit): int
+    private function getRateUsingMatchingBitCriteria($report, $useTheMostCommonBit): int
     {
         $position = 0;
         while (count($report) > 1) {
